@@ -44,6 +44,29 @@
     var mail='mailto:coniferdecore@gmail.com?subject='+encodeURIComponent('Quotation request from '+v('name'))+'&body='+encodeURIComponent(text);
     document.getElementById('formbox').innerHTML='<div class="ok" role="status"><h3>Your request is ready</h3><p style="margin-top:.5rem">Choose how to send it. Your details are already filled in.</p><div class="row"><a class="btn" target="_blank" rel="noopener" href="'+wa+'">Send on WhatsApp</a><a class="btn alt" href="'+mail+'">Send by email</a></div></div>';
   });
+  // sharing: sends the image itself (phones) or a WhatsApp message with the image link and site link
+  function pageUrl(){return location.href.split('#')[0]}
+  function absImg(src){return src.indexOf('data:')===0?'':new URL(src,location.href).href}
+  function share(src,title){
+    var img=absImg(src),text=title+' – Conifer Decore LLP'+(img?'\n'+img:'')+'\n'+pageUrl();
+    fetch(src).then(function(r){return r.blob()}).then(function(bl){
+      var f=new File([bl],'conifer-decore.jpg',{type:bl.type||'image/jpeg'});
+      if(navigator.canShare&&navigator.canShare({files:[f]}))return navigator.share({files:[f],title:title,text:text});
+      throw 0;
+    }).catch(function(e){
+      if(e&&e.name==='AbortError')return;
+      window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');
+    });
+  }
+  function copyLink(src,btn){
+    var v=absImg(src)||pageUrl(),old=btn.textContent;
+    var done=function(){btn.textContent='Copied';setTimeout(function(){btn.textContent=old},1500)};
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(done,function(){prompt('Copy this link',v)});
+    else prompt('Copy this link',v);
+  }
+  document.getElementById('lbs').onclick=function(){share(lbi.src,lbt.textContent)};
+  document.getElementById('lbc').onclick=function(){copyLink(lbi.src,this)};
+
   // systems page
   var A=[
    ['27 mm','High-end window',"images/profile-27mm.jpg",'Aluminium sliding window profile',['Max window height 2135 mm (7 ft)','Sash 65.5 × 27 mm, slim 20 mm interlock','Single glass 5–8 mm, 2 or 3 track']],
@@ -67,6 +90,7 @@
   $('adv').innerHTML=V.map(function(v){return '<div><b>'+v[0]+'</b><span>'+v[1]+'</span></div>'}).join('');
   $('cols').innerHTML=C.map(function(c){return '<div class="col"><i style="background:'+c[1]+(c[1][0]=='u'?'':'')+'"></i>'+c[0]+'</div>'}).join('');
   $('ugrid').innerHTML=U.map(function(u){return '<article class="sc"><img loading="lazy" src="'+u[1]+'" alt="'+u[2]+'"><div><h3>'+u[0]+'</h3></div></article>'}).join('');
+  document.querySelectorAll('.sc').forEach(function(c){var b=document.createElement('button');b.className='sh';b.textContent='Share';b.addEventListener('click',function(){share(c.querySelector('img').src,c.querySelector('h3').innerText.replace(/\s+/g,' ').trim())});c.lastElementChild.appendChild(b)});
   document.querySelectorAll('.go').forEach(function(b){b.addEventListener('click',function(){$(b.dataset.t).scrollIntoView({behavior:'smooth'})})});
 
   // simple router: #systems shows the systems page, anything else shows home

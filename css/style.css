@@ -80,6 +80,10 @@ dialog::backdrop{background:rgba(8,12,15,.82)}
 dialog img{width:100%;max-height:78vh;object-fit:contain;background:#000;border-radius:4px}
 dialog .t{display:flex;justify-content:space-between;align-items:center;padding:.8rem .2rem}
 dialog button{background:#fff;color:#111;border:0;border-radius:4px;padding:.45rem .9rem;font:600 .95rem var(--body);cursor:pointer}
+dialog .acts{display:flex;gap:.5rem;flex-wrap:wrap}
+.sc .sh{margin-top:.9rem;font:600 .88rem var(--body);padding:.45rem .95rem;border-radius:4px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.sc .sh:hover{border-color:var(--ink)}
+
 
 /* finish picker */
 .studio{background:var(--surface);border-block:1px solid var(--line)}
