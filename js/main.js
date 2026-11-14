@@ -13,7 +13,7 @@
   // lightbox
   var lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbt=document.getElementById('lbt');
   cards.forEach(function(c){c.addEventListener('click',function(){
-    lbi.src=c.dataset.img;lbi.alt=c.querySelector('img').alt;lbt.textContent=c.querySelector('h3').textContent;lb.showModal();
+    curId=c.id;lbi.src=c.dataset.img;lbi.alt=c.querySelector('img').alt;lbt.textContent=c.querySelector('h3').textContent;lb.showModal();
   })});
   document.getElementById('lbx').onclick=function(){lb.close()};
   lb.addEventListener('click',function(e){if(e.target===lb)lb.close()});
@@ -44,11 +44,13 @@
     var mail='mailto:coniferdecore@gmail.com?subject='+encodeURIComponent('Quotation request from '+v('name'))+'&body='+encodeURIComponent(text);
     document.getElementById('formbox').innerHTML='<div class="ok" role="status"><h3>Your request is ready</h3><p style="margin-top:.5rem">Choose how to send it. Your details are already filled in.</p><div class="row"><a class="btn" target="_blank" rel="noopener" href="'+wa+'">Send on WhatsApp</a><a class="btn alt" href="'+mail+'">Send by email</a></div></div>';
   });
-  // sharing: sends the image itself (phones) or a WhatsApp message with the image link and site link
+  // sharing: a shared link opens this website at that product
+  var curId='';
+  function slug(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
   function pageUrl(){return location.href.split('#')[0]}
-  function absImg(src){return src.indexOf('data:')===0?'':new URL(src,location.href).href}
-  function share(src,title){
-    var img=absImg(src),text=title+' – Conifer Decore LLP'+(img?'\n'+img:'')+'\n'+pageUrl();
+  function deepLink(id){return pageUrl()+(id?'#'+id:'')}
+  function share(src,title,id){
+    var text=title+' – Conifer Decore LLP\n'+deepLink(id);
     fetch(src).then(function(r){return r.blob()}).then(function(bl){
       var f=new File([bl],'conifer-decore.jpg',{type:bl.type||'image/jpeg'});
       if(navigator.canShare&&navigator.canShare({files:[f]}))return navigator.share({files:[f],title:title,text:text});
@@ -58,14 +60,15 @@
       window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');
     });
   }
-  function copyLink(src,btn){
-    var v=absImg(src)||pageUrl(),old=btn.textContent;
+  function copyLink(id,btn){
+    var v=deepLink(id),old=btn.textContent;
     var done=function(){btn.textContent='Copied';setTimeout(function(){btn.textContent=old},1500)};
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(done,function(){prompt('Copy this link',v)});
     else prompt('Copy this link',v);
   }
-  document.getElementById('lbs').onclick=function(){share(lbi.src,lbt.textContent)};
-  document.getElementById('lbc').onclick=function(){copyLink(lbi.src,this)};
+  document.querySelectorAll('.card').forEach(function(c){c.id='p-'+slug(c.querySelector('h3').textContent)});
+  document.getElementById('lbs').onclick=function(){share(lbi.src,lbt.textContent,curId)};
+  document.getElementById('lbc').onclick=function(){copyLink(curId,this)};
 
   // systems page
   var A=[
@@ -90,17 +93,20 @@
   $('adv').innerHTML=V.map(function(v){return '<div><b>'+v[0]+'</b><span>'+v[1]+'</span></div>'}).join('');
   $('cols').innerHTML=C.map(function(c){return '<div class="col"><i style="background:'+c[1]+(c[1][0]=='u'?'':'')+'"></i>'+c[0]+'</div>'}).join('');
   $('ugrid').innerHTML=U.map(function(u){return '<article class="sc"><img loading="lazy" src="'+u[1]+'" alt="'+u[2]+'"><div><h3>'+u[0]+'</h3></div></article>'}).join('');
-  document.querySelectorAll('.sc').forEach(function(c){var b=document.createElement('button');b.className='sh';b.textContent='Share';b.addEventListener('click',function(){share(c.querySelector('img').src,c.querySelector('h3').innerText.replace(/\s+/g,' ').trim())});c.lastElementChild.appendChild(b)});
+  document.querySelectorAll('.sc').forEach(function(c){var h3=c.querySelector('h3'),sm=h3.querySelector('small'),t=((sm?sm.textContent+' ':'')+h3.lastChild.textContent).trim();c.id='s-'+slug(t);var b=document.createElement('button');b.className='sh';b.textContent='Share';b.addEventListener('click',function(){share(c.querySelector('img').src,t,c.id)});c.lastElementChild.appendChild(b)});
   document.querySelectorAll('.go').forEach(function(b){b.addEventListener('click',function(){$(b.dataset.t).scrollIntoView({behavior:'smooth'})})});
 
   // simple router: #systems shows the systems page, anything else shows home
   var home=$('top'),sys=$('systems'),t0=document.title;
   function route(){
-    var h=location.hash.slice(1),s=h===''||h==='systems';
+    var h=location.hash.slice(1),s=h===''||h==='systems'||h.indexOf('s-')===0;
     sys.hidden=!s;home.hidden=s;
     document.title='Conifer Decore LLP';
-    var el=h&&!s?document.getElementById(h):null;
-    if(el)el.scrollIntoView();else window.scrollTo(0,0);
+    var el=h&&h!=='systems'?document.getElementById(h):null;
+    if(!el){window.scrollTo(0,0);return}
+    el.scrollIntoView({block:h.indexOf('s-')===0?'center':'start'});
+    if(h.indexOf('s-')===0){el.classList.add('hl');setTimeout(function(){el.classList.remove('hl')},2500)}
+    if(h.indexOf('p-')===0)el.click();
   }
   window.addEventListener('hashchange',route);route();
   $('up').addEventListener('click',function(e){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'})});

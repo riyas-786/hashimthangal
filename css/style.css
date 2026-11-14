@@ -83,6 +83,7 @@ dialog button{background:#fff;color:#111;border:0;border-radius:4px;padding:.45r
 dialog .acts{display:flex;gap:.5rem;flex-wrap:wrap}
 .sc .sh{margin-top:.9rem;font:600 .88rem var(--body);padding:.45rem .95rem;border-radius:4px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
 .sc .sh:hover{border-color:var(--ink)}
+.sc.hl{outline:3px solid var(--accent);outline-offset:3px}
 
 
 /* finish picker */
