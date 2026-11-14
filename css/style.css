@@ -176,3 +176,15 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 @media(max-width:760px){html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 112px)}.bar{height:auto;flex-wrap:wrap;padding-block:.6rem;row-gap:.3rem}nav{display:block;order:3;width:100%;overflow-x:auto}nav ul{gap:1.4rem;white-space:nowrap}nav li:nth-child(n+3){display:list-item}nav a{font-size:.95rem}.bar .btn{white-space:nowrap}.logo .mark{height:34px}}
 @media(max-width:420px){.wrap{width:calc(100% - 2rem)}.cta .btn{flex:1 1 100%;text-align:center}.facts li{padding-inline:.9rem}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+.brands{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.brand{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+.brand img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.brand>div{padding:1.6rem 1.6rem 1.8rem;display:flex;flex-direction:column;gap:.8rem;flex:1}
+.brand small{font:600 .8rem var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.brand p{color:var(--muted)}
+.brand ul{margin:0;padding-left:1.1rem;color:var(--muted)}
+.brand .btn{align-self:flex-start;margin-top:auto}
+@media(max-width:760px){.brands{grid-template-columns:1fr}}
+.sc .acts{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
+.sc .acts .sh{margin-top:0}
