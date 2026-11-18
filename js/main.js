@@ -5,7 +5,7 @@
    ['40 mm','Casement window',"images/casement-profiles.jpg",'Casement window profiles in several finishes',['Fixed windows','Side-opening windows','Top-hung windows']],
    ['50 mm','Door and window',"images/profile-50mm.jpg",'Black aluminium corner profile with glass',['Glazing 5–38 mm, tilt and turn compatible','Corner and T-joints for strength','Single-point to multipoint locking']],
    ['50 mm','Door series',"images/door-50mm.jpg",'Large black-framed glazing with a garden view',['Internal and external opening','Glazed from inside for security','Made for big openings and high wind load']],
-   ['65 mm','Heavy door',"images/heavy-door-65mm.jpg",'Black double doors with glass panels',['Heavy-duty doors for wide, tall entrances']],
+   ['','Heavy door',"images/heavy-door.jpg",'Black double doors with glass panels',['Heavy-duty doors for wide, tall entrances']],
    ['Slim','Sliding and folding',"images/folding-doors.jpg",'Folding glass doors opening to a lake view',['Slim frames, wide glass views','Sliding and folding doors']],
    ['Glass','Railing',"images/glass-railing-deck.jpg",'Glass balcony railing on a modern house deck',['Clear glass balustrades for balconies, decks and terraces']],
    ['Slim','Framed partitions',"images/partitions.jpg",'Slim black-framed glass partitions in a living room',['Glass partitions for homes and offices']],
@@ -14,7 +14,7 @@
   var B=[['Sound insulation','Noise-cancelling doors and windows can cut noise pollution at home by as much as half.'],['Wind load','Strong, with a long performance life compared with other window materials.'],['Water tightness','Profiles resist water and do not corrode.'],['Air permeability','Strong enough to hold the heavy glass of today’s high-rise buildings.'],['Impact resistance','Light in weight but stronger than wood or plastic, and better at absorbing unusual impacts.']];
   var V=[['Thermal insulation','Multi-chamber profiles reduce heat loss.'],['Water tightness','Absorbs less than 0.1% water.'],['Sound insulation','Welded corners and tight seals.'],['Termite proof','Unaffected by termites.'],['Strength and security','Profiles reinforced with steel.'],['Weather resistance','Does not rot, corrode or warp.'],['Maintenance free','Wipe clean with mild detergent.'],['Eco-friendly','Lead-free and fully recyclable.'],['Corrosion resistant','Free from attack by acids, alkalis and salts.'],['Fire resistance','Hard to ignite, does not feed fires.'],['Electrical insulation','High electrical insulation.'],['Pollution resistance','Stable material, unaffected by pollution.']];
   var C=[['White','#F2F2F0'],['Brown','#5A3A28'],['Grey','#6B7075'],['Black','#1C1C1C'],['Golden oak','url(images/swatch-golden-oak.jpg)'],['Walnut','url(images/swatch-walnut.jpg)'],['Dark oak','url(images/swatch-dark-oak.jpg)'],['Cherry','url(images/swatch-cherry.jpg)']];
-  var U=[['2-track sliding door',"images/upvc-2track.jpg",'White uPVC two-track sliding window'],['3-track sliding door',"images/upvc-3track.jpg",'White sliding window in a living room'],['2-track, 4-shutter sliding door',"images/upvc-4shutter.jpg",'Four-shutter sliding door to a garden'],['Open door',"images/upvc-open-door.jpg",'White double doors opening onto a patio'],['Fixed door',"images/upvc-fixed.jpg",'Fixed glass panel with a forest view'],['Top-hung door',"images/upvc-top-hung.jpg",'Top-hung window beside an entrance']];
+  var U=[['2-track sliding door',"images/upvc-2track.jpg",'White uPVC two-track sliding window'],['3-track sliding door',"images/upvc-3track.jpg",'White sliding window in a living room'],['2-track, 4-shutter sliding door',"images/upvc-4shutter.jpg",'Four-shutter sliding door to a garden'],['Open door',"images/upvc-open-door.jpg",'White double doors opening onto a patio'],['Door',"images/upvc-fixed.jpg",'Glazed panel with a forest view'],['Top-hung door',"images/upvc-top-hung.jpg",'Top-hung window beside an entrance']];
   var G=[
    ['images/hero-timber-door.jpg','Timber-finish pivot door','alu','Timber-finish pivot entrance door with glazed side panels'],
    ['images/building-dusk.jpg','Glass-fronted building','alu','Modern glass-fronted building lit at dusk'],
@@ -25,7 +25,7 @@
    ['images/corner-folding-lake.jpg','Corner folding doors','alu','Folding glass corner doors with a lake view'],
    ['images/sliding-pool-terrace.jpg','Sliding doors to a terrace','alu','Black sliding doors opening to a pool terrace'],
    ['images/folding-doors.jpg','Slim folding doors','alu','Slim black folding doors in a living room'],
-   ['images/heavy-door-65mm.jpg','Black double doors','alu','Black double doors with glass panels'],
+   ['images/heavy-door.jpg','Black double doors','alu','Black double doors with glass panels'],
    ['images/door-50mm.jpg','Large glazed door','alu','Large black-framed glazing with a garden view'],
    ['images/house-30mm.jpg','Modern house windows','alu','Modern house with large windows at dusk'],
    ['images/stairwell.jpg','Bright stairwell','alu','Stairwell with large glazed windows'],
@@ -37,7 +37,7 @@
    ['images/upvc-3track.jpg','uPVC 3-track sliding','upvc','White uPVC sliding window in a living room'],
    ['images/upvc-4shutter.jpg','uPVC 4-shutter sliding','upvc','Four-shutter uPVC sliding door to a garden'],
    ['images/upvc-open-door.jpg','uPVC open door','upvc','White uPVC double doors opening onto a patio'],
-   ['images/upvc-fixed.jpg','uPVC fixed window','upvc','Fixed uPVC panel with a forest view'],
+   ['images/upvc-fixed.jpg','uPVC window','upvc','uPVC panel with a forest view'],
    ['images/upvc-top-hung.jpg','uPVC top-hung window','upvc','Top-hung uPVC window beside an entrance']];
   var LAB={alu:'Pengeluar aluminium',upvc:'Conifer uPVC'};
   var $=function(i){return document.getElementById(i)};
@@ -47,7 +47,7 @@
 
   // services page content
   fill('ben',B.map(function(b){return '<dt>'+b[0]+'</dt><dd>'+b[1]+'</dd>'}).join(''));
-  fill('sgrid',A.map(function(a){return '<article class="sc"><img loading="lazy" src="'+a[2]+'" alt="'+a[3]+'"><div><h3><small>'+a[0]+'</small>'+a[1]+'</h3><ul>'+a[4].map(function(s){return '<li>'+s+'</li>'}).join('')+'</ul></div></article>'}).join(''));
+  fill('sgrid',A.map(function(a){return '<article class="sc"><img loading="lazy" src="'+a[2]+'" alt="'+a[3]+'"><div><h3>'+(a[0]?'<small>'+a[0]+'</small>':'')+a[1]+'</h3><ul>'+a[4].map(function(s){return '<li>'+s+'</li>'}).join('')+'</ul></div></article>'}).join(''));
   fill('adv',V.map(function(v){return '<div><b>'+v[0]+'</b><span>'+v[1]+'</span></div>'}).join(''));
   fill('cols',C.map(function(c){return '<div class="col"><i style="background:'+c[1]+'"></i>'+c[0]+'</div>'}).join(''));
   fill('ugrid',U.map(function(u){return '<article class="sc"><img loading="lazy" src="'+u[1]+'" alt="'+u[2]+'"><div><h3>'+u[0]+'</h3></div></article>'}).join(''));
@@ -161,7 +161,7 @@
   if('IntersectionObserver' in window){
     document.documentElement.classList.add('js');
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
-    Q('.brand,.feat a,.sc,.card,.steps li,.two>div,.adv div').forEach(function(el){el.classList.add('rv');io.observe(el)});
+    Q('.brand,.feat a,.sc,.card,.steps li,.two>div,.adv div,.leader').forEach(function(el){el.classList.add('rv');io.observe(el)});
   }
 
   // quote form
